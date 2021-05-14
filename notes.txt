@@ -1,0 +1,41 @@
+https://github.com/wjfrelo/cm-cal_docker.git
+
+docker - single container
+docker compose - multiple container single host
+docker swarm - multiple hosts
+
+
+w=quay/clair
+
+snik
+
+
+docker run --help
+
+docker run -itd --name=
+
+docker attach alpine1
+docker container stop alpine1 alpine2
+docker container rm alpine1 alpine2
+
+
+https://docs.docker.com/compose/
+from Wyatt Frelot to All Participants:
+https://docs.docker.com/compose/compose-file/compose-file-v3/.
+..
+
+
+https://docker-curriculum.com/
+https://labs.play-with-docker.com/
+https://labs.play-with-k8s.com/
+https://github.com/PacktPublishing/Docker-Certified-Associate-DCA-Exam-Guide
+https://github.com/Evalle/DCA
+
+
+## Azure Containers
+https://aroworkshop.io/
+https://kubesec.aksworkshop.io/
+https://devsecops.aksworkshop.io/
+## Containers on AWS
+https://ecsworkshop.com/
+https://www.eksworkshop.com/
