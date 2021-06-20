@@ -1,0 +1,107 @@
+################################
+# Create a Deployment
+################################
+
+#-------------------------------
+# Create specification file
+#-------------------------------
+cat << EOF > ~/nginx-deployment.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - name: nginx-deployment
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+EOF
+
+#-------------------------------
+# Create deployment
+#-------------------------------
+kubectl apply -f ~/nginx-deployment.yaml
+
+#-------------------------------
+# Verify deployment
+#-------------------------------
+kubectl get deployment -o wide
+
+#-------------------------------
+# Verify Deployments
+#-------------------------------
+# Note: May have to restart rollout: kubectl rollout restart deployment.apps/nginx-deployment
+kubectl rollout status deployment.apps/nginx-deployment
+kubectl describe deployment nginx-deployment
+
+#-------------------------------
+# Verify Recovery from Crashes
+#-------------------------------
+kubectl get pods
+
+#-------------------------------
+# Simulate crash by deleting container
+#-------------------------------
+kubectl delete pod <InsertPodFromList>
+
+#-------------------------------
+# Scale in place
+#-------------------------------
+kubectl scale --replicas=7 deployment/nginx-deployment
+
+# Kubernetes isn’t going to scale the Deployment down to be below the level at which you first started it up.
+
+#-------------------------------
+# View Replicasets
+#-------------------------------
+kubectl describe deployment nginx-deployment 
+kubectl describe replicaset <EnterReplicaSet>
+
+#-------------------------------
+# Get Info by Pod Label
+#-------------------------------
+kubectl get pods -l app=nginx-deployment
+
+#-------------------------------
+# Add New Label
+#-------------------------------
+ 
+kubectl label pods <EnterPodName> experimental=true
+
+#-------------------------------
+# Change Existing Label
+#-------------------------------
+kubectl label pods <EnterPodName> app=soaktest --overwrite
+
+# Pod remains
+kubectl get pods
+
+#-------------------------------
+# Replace All Labels
+#-------------------------------
+kubectl label pods --all app=notsoaktesteither --overwrite
+
+#-------------------------------
+# Expose Deployment Label
+#-------------------------------
+kubectl expose deployment nginx-deployment --type=NodePort --name=example-service
+
+# Verify Port Opened
+kubectl get services example-service
+
+# Removed pod from deployment
+kubectl delete deployment nginx-deployment
+
+# Kill remaining pods
